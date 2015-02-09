@@ -15,30 +15,41 @@ var BowlingGame = function(){
   var previousFrame = null;
 
   var moveNext = function () {
-    var _curr = null;
-    var _pre = currentFrame;
+    var next = null;
+    var completed = currentFrame;
 
 
-    var notLast = frameIndex + 1 < standardFrames.length;
+    var notLast = ++frameIndex < standardFrames.length;
 
+    //if the current frame is not last standard frame, them move to next
     if (notLast) {
-      _curr = standardFrames[++frameIndex];
+      next = standardFrames[frameIndex];
     }
-    else if (!notLast && (_pre.isStrike() || _pre.isSpare())) {
-      _curr = extraFrame;
+    //if the current frame is the last standard frame, and
+    //it's a strike or spare, then start the extra frame
+    else if (!notLast && (completed.isStrike() || completed.isSpare())) {
+      next = extraFrame;
     }
 
 
 
-    currentFrame = _curr;
-    previousFrame = _pre;
+    currentFrame = next;
+    previousFrame = completed;
   }
 
   var roll = function (noOfPins) {
     if(finished){ return; }
 
     currentFrame.roll(noOfPins);
-    score += noOfPins;
+
+    //check the current frame is the extra frame
+    var isExtraFrame = extraFrame.rollingTimes() > 0
+
+    //if the current frame is not the extra frame, then count it for current frame
+    if (!isExtraFrame){
+      score += noOfPins;
+    }
+
 
     //The scoring of a spare is the sum of the number of pins knocked down plus
     //the number of pins knocked down in the next bowl.
@@ -53,25 +64,22 @@ var BowlingGame = function(){
 
 
 
-    //if extraFrame is rolling at least one time
-    //means last standardFram is spare or strike
-    if (extraFrame.rollingTimes() > 0) {
-      //if the last standardFram is spare, only one bowl allowed
-      if (previousFrame.isSpare()){
-        return finished = true;
-      }
-      //if the last standardFram is not spare, then it's strike,
-      //the extra frame can be complete
-      else if (extraFrame.isCompleted()){
-        return finished = true;
-      }
+    //if the last standardFram is spare, only one bowl allowed
+    if (isExtraFrame && previousFrame.isSpare()) {
+      return finished = true;
+    }
+
+    //if the last standardFram is not spare, then it's strike,
+    //the extra frame can be complete
+    if (isExtraFrame && extraFrame.isCompleted()){
+      return finished = true;
     }
 
     if (currentFrame.isCompleted()){
       moveNext();
     }
 
-
+    //after move next, there is not frame anymore, so stop the game
     if (!currentFrame){
       return finished = true;
     }

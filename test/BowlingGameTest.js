@@ -28,34 +28,6 @@ describe('Bowling Game', function() {
     bowlingGame.roll(4);
     expect(bowlingGame.isFinished()).to.be.true
   });
-  it('if last frame is spare, another bowl will be allowed', function() {
-    var bowlingGame = BowlingGame();
-    for(var i = 0; i < 9; i++){
-      randomRolling(bowlingGame);
-      expect(bowlingGame.isFinished()).to.be.false
-    }
-    bowlingGame.roll(4);
-    expect(bowlingGame.isFinished()).to.be.false
-    bowlingGame.roll(6);
-    expect(bowlingGame.isFinished()).to.be.false
-
-    bowlingGame.roll(6);
-    expect(bowlingGame.isFinished()).to.be.true
-  });
-  it('if last frame is strike, another 2 bowls will be allowed', function() {
-    var bowlingGame = BowlingGame();
-    for(var i = 0; i < 9; i++){
-      bowlingGame.roll(10);
-      expect(bowlingGame.isFinished()).to.be.false
-    }
-    bowlingGame.roll(10);
-    expect(bowlingGame.isFinished()).to.be.false
-
-    bowlingGame.roll(6);
-    expect(bowlingGame.isFinished()).to.be.false
-    bowlingGame.roll(4);
-    expect(bowlingGame.isFinished()).to.be.true
-  });
   it('if spare, score will be the sum of the number of pins knocked down plus the number of pins knocked down in the next bowl', function() {
     var bowlingGame = BowlingGame();
     bowlingGame.roll(4)
@@ -101,6 +73,40 @@ describe('Bowling Game', function() {
     bowlingGame.roll(4);
     bowlingGame.roll(4);
     expect(bowlingGame.score()).to.equal(66)
+  });
+  it('if last frame is spare, they get another bowl. The score of this frame is the sum of the three bowls', function() {
+    var bowlingGame = BowlingGame();
+    for(var i = 0; i < 9; i++){
+      bowlingGame.roll(4);
+      bowlingGame.roll(4);
+      expect(bowlingGame.isFinished()).to.be.false
+    }
+
+    bowlingGame.roll(4);
+    expect(bowlingGame.isFinished()).to.be.false
+    bowlingGame.roll(6);
+    expect(bowlingGame.isFinished()).to.be.false
+
+    bowlingGame.roll(4);
+    expect(bowlingGame.isFinished()).to.be.true
+    expect(bowlingGame.score()).to.equal(86)
+  });
+  it('if last frame is strike, they get another 2 bowls. The score of this frame is the sum of the four bowls', function() {
+    var bowlingGame = BowlingGame();
+    for(var i = 0; i < 9; i++){
+      bowlingGame.roll(4);
+      bowlingGame.roll(4);
+      expect(bowlingGame.isFinished()).to.be.false
+    }
+
+    bowlingGame.roll(10);
+    expect(bowlingGame.isFinished()).to.be.false
+
+    bowlingGame.roll(4);
+    expect(bowlingGame.isFinished()).to.be.false
+    bowlingGame.roll(4);
+    expect(bowlingGame.isFinished()).to.be.true
+    expect(bowlingGame.score()).to.equal(90)
   });
   it('if all strike, score is 300', function() {
     var bowlingGame = BowlingGame();
