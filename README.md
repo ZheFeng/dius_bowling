@@ -1,6 +1,11 @@
 # dius_bowling
 https://gist.github.com/codingricky/2913943
 
+The project is build by Nodejs. If you didn't install nodejs in your machine, you can find out how to do it from this link:
+http://nodejs.org/
+
+
+Just clone the project, then run the command below. 
 
 ```
 npm install
