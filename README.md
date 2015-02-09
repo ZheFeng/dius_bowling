@@ -5,7 +5,7 @@ The project is build by Nodejs. If you didn't install nodejs in your machine, yo
 http://nodejs.org/
 
 
-Just clone the project, then run the command below. 
+Just clone the project, then run the command below.
 
 ```
 npm install
@@ -28,12 +28,12 @@ The output will be
   Bowling Game
     ✓ should be able to get current score when a frame finish
     ✓ should be able to detect is finished
-    ✓ if last frame is spare, another bowl will be allowed
-    ✓ if last frame is strike, another 2 bowls will be allowed
     ✓ if spare, score will be the sum of the number of pins knocked down plus the number of pins knocked down in the next bowl
     ✓ if strike, score will be the sum of the number of pins knocked down plus the number of pins knocked down in the next two bowls
+    ✓ if last frame is spare, they get another bowl. The score of this frame is the sum of the three bowls
+    ✓ if last frame is strike, they get another 2 bowls. The score of this frame is the sum of the four bowls
     ✓ if all strike, score is 300
 
 
-  12 passing (8ms)
+  12 passing (9ms)
 ```
